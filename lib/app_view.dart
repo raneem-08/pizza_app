@@ -16,19 +16,24 @@ class MyAppView extends StatelessWidget {
     return MaterialApp(
         title: 'Pizza Delivery',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(colorScheme: ColorScheme.light(background: Colors.grey.shade200, onBackground: Colors.black, primary: Colors.blue, onPrimary: Colors.white)),
+        theme: ThemeData(
+            colorScheme: ColorScheme.light(
+                surface: Colors.grey.shade200,
+                onSurface: Colors.black,
+                primary: Colors.blue,
+                onPrimary: Colors.white)),
         home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: ((context, state) {
             if (state.status == AuthenticationStatus.authenticated) {
               return MultiBlocProvider(
                 providers: [
                   BlocProvider(
-                    create: (context) => SignInBloc(context.read<AuthenticationBloc>().userRepository),
+                    create: (context) => SignInBloc(
+                        context.read<AuthenticationBloc>().userRepository),
                   ),
                   BlocProvider(
-                    create: (context) => GetPizzaBloc(
-                      FirebasePizzaRepo()
-                    )..add(GetPizza()),
+                    create: (context) =>
+                        GetPizzaBloc(FirebasePizzaRepo())..add(GetPizza()),
                   ),
                 ],
                 child: const HomeScreen(),
